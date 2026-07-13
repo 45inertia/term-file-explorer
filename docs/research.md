@@ -9,6 +9,7 @@ project.
 - [Opening documents and running commands cross platform](#opening-documents-and-running-commands-cross-platform)
 - [Architecture Ideas](#architecture-ideas)
 - [Considering Running Commands (Block UI or run async)](#considering-running-commands-block-ui-or-run-async)
+- [Breaking up the code (AI recommended)](#breaking-up-the-code-ai-recommended)
 
 ## Reading Directory Contents Cross Platform
 
@@ -66,3 +67,29 @@ The FTXUI event loop is single threaded and will freeze if a command is long run
 Eventually a solution needed is to spawn the command on a separate thread and use FTXUI's 
 `PostEvent`/screen-refresh-from-another-thread mechanism to update the UI once it completes.
 
+## Breaking up the code (AI recommended)
+
+During the initial design process AI has been used as a consultant for architecture and project
+structure. 
+
+```
+src/
+  model/
+    file_system_model.hpp / .cpp
+  services/
+    os_service.hpp              (abstract interface)
+    windows_os_service.cpp      (only compiled on WIN32)
+    linux_os_service.cpp        (only compiled on UNIX)
+  viewmodel/
+    file_explorer_viewmodel.hpp / .cpp
+  ui/
+    components/
+      menu_panel.hpp / .cpp     (the directory listing menu)
+      path_bar.hpp / .cpp       (breadcrumb / current path display)
+      command_input.hpp / .cpp  (the command-entry box)
+    tree_main.hpp / .cpp        (composes the above into the full screen)
+  main.cpp
+```
+
+Need to think about whether the ViewModel exposes mutable references like `SelectedIndexRef()` for
+FTXUI's pointer binding style or whether `CatchEvent` callback driven updates are used instead.
