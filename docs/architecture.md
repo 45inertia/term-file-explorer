@@ -90,10 +90,35 @@ classDiagram
 ```
 
 ## Component/Architecture Diagram
-higher level than class diagram
+**Version 1.0**
 
-boxes for UI Layer, viewmodel, model, os services. arrows showing dependency direction. This is the
-one that would go at the top of a readme
+```mermaid
+flowchart TD
+    subgraph UI[UI Layer]
+        tree_main
+        menu_panel
+        path_bar
+        command_input
+    end
+    tree_main --> menu_panel
+    tree_main --> path_bar
+    tree_main --> command_input
+    subgraph VM[ViewModel Layer]
+        file_explorer_view_model
+    end
+    subgraph model[Model Layer]
+        file_system_model
+        dir_entry
+    end
+    subgraph services[Services Layer]
+        os_service
+        windows_os_service
+        linux_os_service
+    end
+    UI --> VM
+    VM --> model
+    VM --> services
+```
 
 ## Sequence Diagram
 
