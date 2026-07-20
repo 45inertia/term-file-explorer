@@ -10,6 +10,7 @@ project.
 - [Architecture Ideas](#architecture-ideas)
 - [Considering Running Commands (Block UI or run async)](#considering-running-commands-block-ui-or-run-async)
 - [Breaking up the code (AI recommended)](#breaking-up-the-code-ai-recommended)
+- [Error Handling](#error-handling)
 
 ## Reading Directory Contents Cross Platform
 
@@ -93,3 +94,11 @@ src/
 
 Need to think about whether the ViewModel exposes mutable references like `SelectedIndexRef()` for
 FTXUI's pointer binding style or whether `CatchEvent` callback driven updates are used instead.
+
+## Error Handling
+
+What happens when `list_directory()` hits a permission denied folder? The main thing to decide is
+does the ViewModel store an "error message" field that the UI can display (same pattern as
+`last_command_result`)
+
+There should be an error message stored with a title and description.

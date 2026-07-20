@@ -10,7 +10,7 @@
 - [State Diagram](#state-diagram)
 
 ## Class Diagram
-**Class Diagram Version 1.0**
+**Class Diagram Version 1.1**
 ```mermaid
 ---
 title: term-file-explorer
@@ -23,6 +23,10 @@ classDiagram
     main --> windows_os_service
     main --> linux_os_service
     main --> tree_main
+    class error_message {
+        + string title
+        + string description
+    }
     class command_result {
       + int exit_code
       + string stdout_output
