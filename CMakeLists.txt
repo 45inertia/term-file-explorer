@@ -19,7 +19,9 @@ FetchContent_MakeAvailable(ftxui)
 
 set(SOURCES
   src/main.cpp
+  src/model/FileSystemModel.h
   src/model/FileSystemModel.cpp
+  src/model/DirEntry.h
 )
 
 add_executable(term-file-explorer ${SOURCES})

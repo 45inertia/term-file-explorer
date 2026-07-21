@@ -4,14 +4,12 @@
 #include <filesystem>
 #include <vector>
 
-#include "DirEntry.h"
-
-namespace fs = std::filesystem;
+#include "model/DirEntry.h"
 
 // separation of concerns principle
 class FileSystemModel {
 public:
-  std::vector<DirEntry> ListDirectory(const fs::path& dir);
+  std::vector<DirEntry> ListDirectory(const std::filesystem::path& dir);
 };
 
 #endif // FILESYSTEMMODEL_H
