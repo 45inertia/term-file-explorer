@@ -17,7 +17,12 @@ FetchContent_Declare(ftxui
 FetchContent_MakeAvailable(ftxui)
 # --- FETCH FTXUI ----------------------------------------------------------------------------------
 
-add_executable(term-file-explorer src/main.cpp)
+set(SOURCES
+  src/main.cpp
+  src/model/FileSystemModel.cpp
+)
+
+add_executable(term-file-explorer ${SOURCES})
 target_include_directories(term-file-explorer PRIVATE src)
 
 target_link_libraries(term-file-explorer PRIVATE
