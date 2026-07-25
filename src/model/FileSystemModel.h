@@ -4,7 +4,7 @@
 #include <filesystem>
 #include <vector>
 
-#include "model/DirEntry.h"
+#include "DirEntry.h"
 
 // separation of concerns principle
 class FileSystemModel {

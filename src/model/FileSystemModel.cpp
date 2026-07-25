@@ -14,6 +14,7 @@ std::vector<DirEntry> FileSystemModel::ListDirectory(const fs::path& dir) {
     return list_;
   }
   for(auto &item : fs::directory_iterator(dir)) {
+    // try and catch as some non directory sizes will return errors
     try {
       list_.push_back(DirEntry{
         item.path().filename().string(),
