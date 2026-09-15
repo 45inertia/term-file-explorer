@@ -3,71 +3,32 @@
 #include <memory>
 #include <iostream>
 
-#include "ftxui/component/app.hpp"
-#include "ftxui/component/captured_mouse.hpp"
-#include "ftxui/component/component.hpp"
-#include "ftxui/component/component_base.hpp"
-#include "ftxui/dom/elements.hpp"
+#include <filesystem>
 
-using namespace ftxui;
+#include "model/DirEntry.h"
+#include "model/FileSystemModel.h"
 
-Component Window(std::string title, Component component) {
-  return Renderer(component, [component, title] {
-    return window(text(title), component->Render()) | flex;
-  });
-}
+namespace fs = std::filesystem;
+
+
 
 int main() {
-  int menu_selected[] = {0, 0, 0};
-  std::vector<std::vector<std::string>> menu_entries = {
-    {
-      "Ananas",
-      "Raspberry",
-      "Citrus",
-    },
-    {
-      "Potatoes",
-      "Weat",
-      "Rise",
-    },
-    {
-      "Carrot",
-      "Lettuce",
-      "Tomato",
-    },
-  };
+  fs::path root = fs::absolute("/");
 
-  int menu_selected_global = 0;
-  auto menu_global = Container::Vertical(
-    {
-      Window("Menu 1", Menu(&menu_entries[0], &menu_selected[0])),
-      Window("Menu 2", Menu(&menu_entries[1], &menu_selected[1])),
-      Window("Menu 3", Menu(&menu_entries[2], &menu_selected[2])),
-    },
-    &menu_selected_global
-  );
+  FileSystemModel model;
+  std::vector<DirEntry> list = model.ListDirectory(root);
 
-  auto info = Renderer([&] {
-    int g = menu_selected_global;
-    std::string value = menu_entries[g][menu_selected[g]];
-    return window(text("Content"),
-      vbox({
-        text("menu_selected_global  = " + std::to_string(g)),
-        text("menu_selected[0]      = " + std::to_string(menu_selected[0])),
-        text("menu_selected[1]      = " + std::to_string(menu_selected[1])),
-        text("menu_selected[2]      = " + std::to_string(menu_selected[2])),
-        text("Value                 = " + value),
-      })) |
-    flex;
-  });
+  std::cout << root << std::endl;
+  
+  for(DirEntry& item : list) {
+    std::cout << item.name_ << '\n' << item.is_directory_ << '\n' << item.size_ << std::endl;
+  }
 
-  auto global = Container::Horizontal({
-    menu_global,
-    info,
-  });
+  list = model.ListDirectory(fs::current_path());
 
-  auto screen = App::TerminalOutput();
-  screen.Loop(global);
+  for(DirEntry& item : list) {
+    std::cout << item.name_ << '\n' << item.is_directory_ << '\n' << item.size_ << std::endl;
+  }
 
   
   return 0;

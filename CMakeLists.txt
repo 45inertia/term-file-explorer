@@ -22,6 +22,15 @@ set(SOURCES
   src/model/FileSystemModel.h
   src/model/FileSystemModel.cpp
   src/model/DirEntry.h
+  src/model/CommandResult.h
+  src/services/OS_Service.h
+  if(WIN32)
+    src/services/Windows_OS_Service.h
+    src/services/Windows_OS_Service.cpp
+  elseif(UNIX)
+    src/services/Linux_OS_Service.h
+    src/services/Linux_OS_Service.cpp
+  endif()
 )
 
 add_executable(term-file-explorer ${SOURCES})
@@ -35,4 +44,7 @@ target_link_libraries(term-file-explorer PRIVATE
   #ftxui::component
   #ftxui::dom
   #ftxui::screen
+
+  # Adding for windows opening of files
+  Shell32.lib
 )
